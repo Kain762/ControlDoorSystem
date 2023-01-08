@@ -62,6 +62,9 @@
         </v-toolbar>
       </template>
 
+
+
+
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
           <v-dialog
@@ -153,18 +156,73 @@
 
 
 
-    <!-- Наглядные тру-фэлс ДОРАБОТАТЬ!!!!-->
-      <template v-slot:item.access1="{ item }"
+      <!-- Наглядные тру-фэлс ДОРАБОТАТЬ!!!!-->
+      <template v-slot:header>
+        <v-data-table-header>
+          <tr>
+            <th v-for="head in headers" :key="head.value">
+              {{ head.text }}
+            </th>
+          </tr>
+        </v-data-table-header>
+      </template>
+
+      <template v-slot:body="{ items }">
+        <tbody>
+          <tr v-for="item in items" :key="item.name">
+            <!-- {{ item }} -->
+            <td v-for="head in headers" :key="head.value">
+              <!-- {{ item[head.value] }} -->
+              <template v-if="head.value == 'name'"> {{ item[head.value] }} </template>
+              <template v-else >
+                <v-chip :color="getColor(item[head.value])">
+
+                </v-chip>
+              </template>
+
+
+
+            </td>
+          </tr>
+        </tbody>
+      </template>
+
+      <!-- <template
+        v-for="chip in chips"
+
+        >
+        <td v-slot:item[chip.value]="{item}">
+
+        </td>
+
+
+        </v-chip>
+      </template> -->
+
+<!--
+      <div
+        v-for="chip in chips"
+        :key="chip.id"
+        >
+        <slot
+          name="item[chip.value]"
+          :chip="chip"
+          >
+            {{ chip }}
+        </slot>
+      </div> -->
+
+      <!-- <template v-slot:item.access1="{ item }"
       >
         <v-chip
           :color="getColor(item.access1)"
         >
 
         </v-chip>
-      </template>
+      </template> -->
 
     </v-data-table>
-
+    {{ chips }}
     <template>
         <v-snackbar
           v-model="snackbar"
@@ -211,6 +269,7 @@
       return {
         headers: [],
         items: [],
+        chips: [],
 
         dialogDelete: false,
         dialogCreate: false,
@@ -410,6 +469,8 @@
         const tableData = await this.$axios.$get('http://localhost:3666/api/user/tableData')
         this.headers = tableData.headers
         this.items = tableData.items
+        this.chips = tableData.chips
+        console.log(this.chips)
       }
     },
     async mounted () {
