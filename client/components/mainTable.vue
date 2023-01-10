@@ -157,7 +157,18 @@
 
 
       <!-- Наглядные тру-фэлс ДОРАБОТАТЬ!!!!-->
-      <template v-slot:header>
+      <!-- <template v-for="chip in chips">
+        <custom-element :key="chip.value">
+          {{ key }}
+          <template v-slot:item[chip.value]>
+
+          </template>
+        </custom-element>
+
+        { chip.id }
+      </template > -->
+
+      <!-- <template v-slot:header>
         <v-data-table-header>
           <tr>
             <th v-for="head in headers" :key="head.value">
@@ -165,14 +176,14 @@
             </th>
           </tr>
         </v-data-table-header>
-      </template>
+      </template> -->
 
-      <template v-slot:body="{ items }">
+      <!-- <template v-slot:body="{ items }">
         <tbody>
           <tr v-for="item in items" :key="item.name">
-            <!-- {{ item }} -->
+            {{ item }}
             <td v-for="head in headers" :key="head.value">
-              <!-- {{ item[head.value] }} -->
+              {{ item[head.value] }}
               <template v-if="head.value == 'name'"> {{ item[head.value] }} </template>
               <template v-else >
                 <v-chip :color="getColor(item[head.value])">
@@ -185,7 +196,7 @@
             </td>
           </tr>
         </tbody>
-      </template>
+      </template> -->
 
       <!-- <template
         v-for="chip in chips"
@@ -211,6 +222,36 @@
             {{ chip }}
         </slot>
       </div> -->
+      <!-- <template v-slot:item="{ item.value }"
+        v-for="head in headers"
+      >
+        <td :key="head.value">
+          <template v-if="head.value == name">
+            {{ item.name }}
+          </template>
+          <template v-else>
+            <v-chip
+              :color="getColor(item[head.value])"
+              >{{ head.value }}
+            </v-chip>
+          </template>
+        </td>
+
+      </template> -->
+      <!-- <template v-for="chip in chips">
+        <template v-for="value in chip">
+          <template
+            v-if="value !=('text' && 'id')"
+            >
+            <custom-element>
+              <template v-slot:item[value]="{ items }">
+                 3
+              </template>
+            </custom-element>
+
+          </template>
+        </template>
+      </template> -->
 
       <!-- <template v-slot:item.access1="{ item }"
       >
@@ -220,9 +261,21 @@
 
         </v-chip>
       </template> -->
+<!-- <template v-for="chip in chips">
+        <custom-element :key="chip.value">
+          {{ chip.value }}
+          <template v-slot:[`item[chip.value]`]="{ item }">
+            {{ chip.id }}
+          </template>
+        </custom-element>
 
+
+      </template > -->
     </v-data-table>
     {{ chips }}
+
+
+
     <template>
         <v-snackbar
           v-model="snackbar"
