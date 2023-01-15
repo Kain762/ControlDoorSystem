@@ -154,125 +154,21 @@
         </td>
       </template>
 
+    <!-- Наглядные true false -->
+      <template v-for="chip in chips" v-slot:[`item.${chip.value}`]="{ item }">
 
-
-      <!-- Наглядные тру-фэлс ДОРАБОТАТЬ!!!!-->
-      <!-- <template v-for="chip in chips">
-        <custom-element :key="chip.value">
-          {{ key }}
-          <template v-slot:item[chip.value]>
-
-          </template>
-        </custom-element>
-
-        { chip.id }
-      </template > -->
-
-      <!-- <template v-slot:header>
-        <v-data-table-header>
-          <tr>
-            <th v-for="head in headers" :key="head.value">
-              {{ head.text }}
-            </th>
-          </tr>
-        </v-data-table-header>
-      </template> -->
-
-      <!-- <template v-slot:body="{ items }">
-        <tbody>
-          <tr v-for="item in items" :key="item.name">
-            {{ item }}
-            <td v-for="head in headers" :key="head.value">
-              {{ item[head.value] }}
-              <template v-if="head.value == 'name'"> {{ item[head.value] }} </template>
-              <template v-else >
-                <v-chip :color="getColor(item[head.value])">
-
-                </v-chip>
-              </template>
-
-
-
-            </td>
-          </tr>
-        </tbody>
-      </template> -->
-
-      <!-- <template
-        v-for="chip in chips"
-
-        >
-        <td v-slot:item[chip.value]="{item}">
-
-        </td>
-
-
-        </v-chip>
-      </template> -->
-
-<!--
-      <div
-        v-for="chip in chips"
-        :key="chip.id"
-        >
-        <slot
-          name="item[chip.value]"
-          :chip="chip"
+        <v-chip :key="chip.id"
+            :color="getColor(item[chip.value])"
           >
-            {{ chip }}
-        </slot>
-      </div> -->
-      <!-- <template v-slot:item="{ item.value }"
-        v-for="head in headers"
-      >
-        <td :key="head.value">
-          <template v-if="head.value == name">
-            {{ item.name }}
-          </template>
-          <template v-else>
-            <v-chip
-              :color="getColor(item[head.value])"
-              >{{ head.value }}
-            </v-chip>
-          </template>
-        </td>
-
-      </template> -->
-      <!-- <template v-for="chip in chips">
-        <template v-for="value in chip">
-          <template
-            v-if="value !=('text' && 'id')"
-            >
-            <custom-element>
-              <template v-slot:item[value]="{ items }">
-                 3
-              </template>
-            </custom-element>
-
-          </template>
-        </template>
-      </template> -->
-
-      <!-- <template v-slot:item.access1="{ item }"
-      >
-        <v-chip
-          :color="getColor(item.access1)"
-        >
-
-        </v-chip>
-      </template> -->
-<!-- <template v-for="chip in chips">
-        <custom-element :key="chip.value">
+          {{ item.name }}
           {{ chip.value }}
-          <template v-slot:[`item[chip.value]`]="{ item }">
-            {{ chip.id }}
-          </template>
-        </custom-element>
+          </v-chip>
 
-
-      </template > -->
-    </v-data-table>
+      </template>
+</v-data-table>
     {{ chips }}
+    <br>
+    <!-- {{ headers[1].value }} -->
 
 
 
