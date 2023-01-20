@@ -156,6 +156,7 @@ class UserController {
       let elMod = {
           text: el.name,
           value: `access${el.id}`,
+          width: '10%',
           id: el.id,
       }
       return elMod

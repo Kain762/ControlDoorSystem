@@ -160,8 +160,16 @@
         <v-chip :key="chip.id"
             :color="getColor(item[chip.value])"
           >
-          {{ item.name }}
-          {{ chip.value }}
+          <!-- {{ item[chip.value] }}
+          {{ Boolean(item[chip.value]) }} -->
+          <v-icon v-if="item[chip.value] === 'true'">
+            mdi-baby-face-outline
+          </v-icon>
+          <v-icon v-else color="black">
+            mdi-baby-face
+          </v-icon>
+          <!-- {{ item.name }}
+          {{ chip.value }} -->
           </v-chip>
 
       </template>
