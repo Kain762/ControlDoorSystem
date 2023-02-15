@@ -430,6 +430,9 @@
         console.log(this.chips)
       }
     },
+    beforeCreate() {
+      // this.$axios.$defaults.$headers.$common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+    },
     async mounted () {
 
       // получение данных таблицы

@@ -188,7 +188,7 @@ class UserController {
     }
     tableInfo.items = completRow
 
-    console.log(tableInfo)
+    // console.log(tableInfo)
     res.json(tableInfo)
   }
   // Данные юзера для редактирования
