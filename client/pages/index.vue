@@ -7,7 +7,7 @@ export default {
   name: 'IndexPage',
 
   mounted () {
-    this.$nuxt.$options.router.push({path: '/main'})
+    this.$nuxt.$options.router.push({path: '/login'})
   },
 }
 </script>

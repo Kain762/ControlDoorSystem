@@ -13,21 +13,33 @@ class LoginController {
       console.log(userAuth.rows[0])
       if(userAuth.rows[0]) {
         console.log('Найден')
-        res.status(200).json({token: jwt.sign({ id: userAuth.rows[0].id }, tokenSecret),
+        res.status(200).json({token: jwt.sign({ id: userAuth.rows[0].id, role: userAuth.rows[0].role }, tokenSecret),
         })
       } else {
         console.log('Не найден')
-        res.status(200).send('Пользователь не найден')
+        res.status(502).json({ message: 'Пользователь не найден', token: undefined })
       }
       
     } catch (error) {
-      res.status(500).send(error)
+      res.status(500).send(`Ошибка входа пользователя ${error}`) // Ошибка
     }
-    
+  }
 
-    
+  async authCeck(req, res) {
+    try {
+      const token = req.headers.authorization
 
-    
+      console.log('Верификация')
+      jwt.verify(token, tokenSecret, {maxAge: "24 hours"})
+      const tokenDecode = jwt.decode(token)
+      console.log('Декодирование')
+      console.log(tokenDecode)
+
+      res.status(200).json(tokenDecode)
+
+    } catch (error) {
+      res.status(501).send(`Ошибка при проверке токена ${error}`)
+    }
   }
 }
 

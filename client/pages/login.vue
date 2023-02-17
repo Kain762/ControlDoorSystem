@@ -94,8 +94,10 @@ export default {
             })
             console.log(submitRes)
             localStorage.setItem('token', submitRes.token);
+            this.$nuxt.$options.router.push({path: '/main'})
           } catch (error) {
-              console.log(error)
+              localStorage.setItem('token', undefined)
+              console.log(`Введенные данные не верны \n${error}`  )
           }
         }
 

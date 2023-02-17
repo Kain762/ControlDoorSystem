@@ -1,5 +1,8 @@
 <template>
   <v-container>
+
+    <nuxt-link to="/login">Логин</nuxt-link>
+
     <v-data-table
       dense
       :headers="headers"
@@ -174,7 +177,7 @@
 
       </template>
 </v-data-table>
-    {{ chips }}
+    {{ testFiled }}
     <br>
     <!-- {{ headers[1].value }} -->
 
@@ -247,6 +250,8 @@
         },
 
         expanded: [],
+
+        testFiled: '',
 
       }
     },
@@ -427,16 +432,20 @@
         this.headers = tableData.headers
         this.items = tableData.items
         this.chips = tableData.chips
-        console.log(this.chips)
+        // console.log(this.chips)
       }
     },
-    beforeCreate() {
+    async beforeCreate() {
+
       // this.$axios.$defaults.$headers.$common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
     },
     async mounted () {
 
       // получение данных таблицы
       this.initialize()
+
+      // this.testFiled = localStorage.getItem('token')
+
     }
 
 
