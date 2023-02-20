@@ -1,5 +1,5 @@
 <template>
-  <v-form v-model="valid">
+  <v-form v-model="valid" v-if="showContent">
     <v-container fluid>
       <form>
         <v-row>
@@ -73,6 +73,7 @@
 export default {
   name: 'LoginPage',
   data: () => ({
+      showContent: false,
       show1: false,
       valid: false,
       login: '',
@@ -94,10 +95,11 @@ export default {
             })
             console.log(submitRes)
             localStorage.setItem('token', submitRes.token);
-            this.$nuxt.$options.router.push({path: '/main'})
+            this.$nuxt.$router.push({path: '/main'})
           } catch (error) {
               localStorage.setItem('token', undefined)
-              console.log(`Введенные данные не верны \n${error}`  )
+              console.log(`Введенные данные не верны \n${error}`)
+              this.testFiled = 'Неверные данные'
           }
         }
 
@@ -106,6 +108,42 @@ export default {
       testCheck() {
         this.testFiled = localStorage.getItem('token')
       },
+      // проверка авторизации
+      async autoAuth() {
+        try {
+          const token = localStorage.getItem('token')
+
+          if(token && token != 'undefined') {
+            const postConfig = {
+              method: 'post',
+              url: 'http://localhost:3666/api/login/checkAuth/',
+              headers: { 'authorization': token},
+            }
+            const authAccess = await this.$axios(postConfig)
+            await localStorage.setItem('userID', authAccess.data.id)
+            await localStorage.setItem('userRole', authAccess.data.role)
+            // setTimeout(() => {this.$nuxt.$options.router.push({path: '/main'})}, 200)
+            // document.location.href = '/main'
+            await this.$nuxt.$router.push('/main')
+            console.log('это сообщение не должно появляться')
+          } else {
+            this.showContent = true
+          }
+
+
+
+        } catch (error) {
+          console.log('Ошибка авторизации ' + error)
+          localStorage.removeItem('token')
+          localStorage.removeItem('userID')
+          localStorage.removeItem('userRole')
+        }
+      },
     },
-}
+
+    async mounted() {
+      this.autoAuth()
+    },
+  }
+
 </script>

@@ -1,8 +1,6 @@
 <template>
   <v-container>
 
-    <nuxt-link to="/login">Логин</nuxt-link>
-
     <v-data-table
       dense
       :headers="headers"

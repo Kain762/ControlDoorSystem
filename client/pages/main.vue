@@ -1,5 +1,8 @@
 <template>
-  <v-container fluid>
+  <v-container fluid v-if="showContent">
+    <v-btn
+      @click="logOut"
+    >Сменить пользователя</v-btn>
     <main-table></main-table>
   </v-container>
 </template>
@@ -12,7 +15,13 @@
     components: {
       mainTable,
     },
+    data() {
+      return {
+        showContent: false,
+      }
+    },
     methods: {
+      // проверка авторизации
       async checkAuth() {
         try {
           const token = localStorage.getItem('token')
@@ -20,7 +29,8 @@
           // проверка на отсутствие токена
           if (token === 'undefined' || !token) {
             console.log('Токен отсутствует')
-            this.$nuxt.$options.router.push({path: '/login'})
+            // document.location.href = '/login'
+            this.$nuxt.$router.push('/login')
             // если токена нет, то отправка на логин
           } else {
             // если токен есть, то отправляем его на сервер
@@ -33,6 +43,7 @@
             // если токен верный, то получаем ответом данные юзера, и сохраняем их
             localStorage.setItem('userID', authAccess.data.id)
             localStorage.setItem('userRole', authAccess.data.role)
+            this.showContent = true
             }
 
         } catch (error) {
@@ -40,13 +51,25 @@
           localStorage.removeItem('token')
           localStorage.removeItem('userID')
           localStorage.removeItem('userRole')
-          this.$nuxt.$options.router.push({path: '/login'})
+          // document.location.href = '/login'
+          this.$nuxt.$router.push('/login')
         }
-      }
+      },
+
+      // Разлогирование
+      logOut() {
+        localStorage.removeItem('token')
+        localStorage.removeItem('userID')
+        localStorage.removeItem('userRole')
+        // document.location.href = '/login'
+        // this.$nuxt.$options.router.push('/login')
+        this.$nuxt.$router.push('/login')
+      },
     },
 
-    async beforeMount() {
+    async mounted() {
       this.checkAuth()
+
     },
   }
 </script>

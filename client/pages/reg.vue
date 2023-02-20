@@ -1,6 +1,6 @@
 <template>
     <v-container>
-      <create-form></create-form>
+      <create-form v-if="showContent"></create-form>
     </v-container>
 </template>
 
@@ -11,6 +11,11 @@
     components: {
       createForm,
     },
+    data() {
+      return {
+        showContent: false,
+      }
+    },
 
     methods: {
       async checkAuth() {
@@ -18,9 +23,10 @@
           const token = localStorage.getItem('token')
 
           // проверка на отсутствие токена
-          if (token === 'undefined' || token) {
+          if (token === 'undefined' || !token) {
             console.log('Токен отсутствует')
-            this.$nuxt.$options.router.push({path: '/login'})
+            document.location.href = '/login'
+            this.$nuxt.$router.push('/login')
             // если токена нет, то отправка на логин
           } else {
             // если токен есть, то отправляем его на сервер
@@ -33,6 +39,7 @@
             // если токен верный, то получаем ответом данные юзера, и сохраняем их
             localStorage.setItem('userID', authAccess.data.id)
             localStorage.setItem('userRole', authAccess.data.role)
+            this.showContent = true
             }
 
         } catch (error) {
@@ -40,12 +47,13 @@
           localStorage.removeItem('token')
           localStorage.removeItem('userID')
           localStorage.removeItem('userRole')
-          this.$nuxt.$options.router.push({path: '/login'})
+          // document.location.href = '/login'
+          this.$nuxt.$router.push('/login')
         }
       }
     },
 
-    async beforeMount() {
+    async mounted() {
       this.checkAuth()
     },
   }
