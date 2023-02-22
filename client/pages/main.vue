@@ -29,8 +29,7 @@
           // проверка на отсутствие токена
           if (token === 'undefined' || !token) {
             console.log('Токен отсутствует')
-            // document.location.href = '/login'
-            this.$nuxt.$router.push('/login')
+            logOut()
             // если токена нет, то отправка на логин
           } else {
             // если токен есть, то отправляем его на сервер
@@ -47,12 +46,8 @@
             }
 
         } catch (error) {
-          console.log('Ошибка авторизации ' + error)
-          localStorage.removeItem('token')
-          localStorage.removeItem('userID')
-          localStorage.removeItem('userRole')
-          // document.location.href = '/login'
-          this.$nuxt.$router.push('/login')
+          console.log('Ошибка авторизации')
+          logOut()
         }
       },
 
@@ -61,8 +56,6 @@
         localStorage.removeItem('token')
         localStorage.removeItem('userID')
         localStorage.removeItem('userRole')
-        // document.location.href = '/login'
-        // this.$nuxt.$options.router.push('/login')
         this.$nuxt.$router.push('/login')
       },
     },

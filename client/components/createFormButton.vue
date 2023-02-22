@@ -35,9 +35,7 @@
 
     methods: {
       closeForm() {
-        setTimeout(() => {
-          this.$nuxt.$options.router.push({path: '/main'})
-        }, 500)
+        this.$nuxt.$router.push('/main')
       },
       // отправить данные на создание юзера
       async createUser() {
