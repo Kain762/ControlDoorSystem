@@ -5,7 +5,7 @@
       dense
       :headers="headers"
       :items="items"
-      :items-per-page="5"
+      :items-per-page="-1"
       show-expand
       :single-expand="true"
       :expanded.sync="expanded"
@@ -222,7 +222,6 @@
         }
       },
 
-
       // отмена удаления
       closeDelete() {
         this.dialogDelete = false
@@ -243,13 +242,10 @@
 
     },
     async mounted () {
-
       // получение данных таблицы
       this.initialize()
 
 
     }
-
-
   }
 </script>
