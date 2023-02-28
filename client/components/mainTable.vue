@@ -4,7 +4,7 @@
       dense
       :headers="headers"
       :items="items"
-      :items-per-page="5"
+      :items-per-page="-1"
       show-expand
       :single-expand="true"
       :expanded.sync="expanded"
@@ -375,6 +375,7 @@
             }
         }
       },
+<<<<<<< Updated upstream
 
 
 
@@ -386,12 +387,15 @@
       //   // console.log(userID.userID)
       // },
 
+=======
+>>>>>>> Stashed changes
       // отмена удаления
       closeDelete() {
         this.dialogDelete = false
         this.inputPassword = ''
         this.initialize()
       },
+<<<<<<< Updated upstream
 
       // // подтверждение удаления
       // async confirmDelete() {
@@ -405,6 +409,8 @@
       //   }
 
       // },
+=======
+>>>>>>> Stashed changes
       // Инициализация
       async initialize () {
         const tableData = await this.$axios.$get('http://localhost:3666/api/user/tableData')
@@ -413,11 +419,8 @@
       }
     },
     async mounted () {
-
       // получение данных таблицы
       this.initialize()
     }
-
-
   }
 </script>
