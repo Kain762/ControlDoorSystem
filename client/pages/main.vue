@@ -1,20 +1,31 @@
 <template>
-  <v-container fluid>
+  <v-container fluid v-if="showContent">
+    <v-btn
+      @click="logOut"
+    >Сменить пользователя</v-btn>
     <main-table></main-table>
   </v-container>
 </template>
 
 <script>
-import mainTable from "../components/mainTable.vue"
+  import mainTable from "../components/mainTable.vue"
 
   export default {
     name: 'MainPage',
     components: {
       mainTable,
     },
+    data() {
+      return {
+        showContent: false,
+      }
+    },
+    methods: {
+      // проверка авторизации
+      async checkAuth() {
+        try {
+          const token = localStorage.getItem('token')
 
-<<<<<<< Updated upstream
-=======
           // проверка на отсутствие токена
           if (token === 'undefined' || !token) {
             console.log('Токен отсутствует')
@@ -36,7 +47,7 @@ import mainTable from "../components/mainTable.vue"
 
         } catch (error) {
           console.log('Ошибка авторизации')
-          logOut()
+          this.logOut()
         }
       },
 
@@ -53,6 +64,6 @@ import mainTable from "../components/mainTable.vue"
       this.checkAuth()
 
     },
->>>>>>> Stashed changes
+
   }
 </script>

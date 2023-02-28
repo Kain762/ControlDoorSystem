@@ -1,6 +1,6 @@
 <template>
     <v-container>
-      <create-form></create-form>
+      <create-form v-if="showContent"></create-form>
     </v-container>
 </template>
 
@@ -11,8 +11,6 @@
     components: {
       createForm,
     },
-<<<<<<< Updated upstream
-=======
     data() {
       return {
         showContent: false,
@@ -26,8 +24,10 @@
 
           // проверка на отсутствие токена
           if (token === 'undefined' || !token) {
+
             console.log('Токен отсутствует')
             this.authError()
+
             // если токена нет, то отправка на логин
           } else {
             // если токен есть, то отправляем его на сервер
@@ -44,8 +44,10 @@
             }
 
         } catch (error) {
+
           console.log('Ошибка авторизации')
           this.authError()
+
         }
       },
       // релог при ошибке авторизации
@@ -61,7 +63,7 @@
     async mounted() {
       this.checkAuth()
     },
->>>>>>> Stashed changes
+
   }
 </script>
 

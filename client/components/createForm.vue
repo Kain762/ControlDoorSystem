@@ -119,21 +119,7 @@
       </v-card>
       <!-- Блок кнопок -->
       <create-form-button :userData="user"></create-form-button>
-      <!-- тестирование -->
-      <!-- <v-row class="justify-center mt-5">
-        <v-col
-          cols="12"
-          sm="6"
-          md="3">
-          <v-text-field
-            v-model="doorAccess"
-            label= 'do'
-            filled
 
-          ></v-text-field>
-        </v-col>
-      </v-row> -->
-      <!-- тестирование -->
     </v-card>
   </v-form>
 </template>

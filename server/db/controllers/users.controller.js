@@ -125,6 +125,7 @@ class UserController {
 
     res.json(access);
   }
+
   // Сформировать данные таблицы + хэдер
   async tableData(req, res) {
     // запрашиваем три таблицы из БД
@@ -147,6 +148,7 @@ class UserController {
         },
       ],
       items: [],
+      chips: [],
     }
      
     // формируем строку хэдера
@@ -154,12 +156,14 @@ class UserController {
       let elMod = {
           text: el.name,
           value: `access${el.id}`,
+          width: '10%',
           id: el.id,
       }
       return elMod
     })
 
     tableInfo.headers = tableInfo.headers.concat(doorName)
+    tableInfo.chips = doorName
 
     // строки данных
     let completRow = []
@@ -184,7 +188,7 @@ class UserController {
     }
     tableInfo.items = completRow
 
-
+    // console.log(tableInfo)
     res.json(tableInfo)
   }
   // Данные юзера для редактирования

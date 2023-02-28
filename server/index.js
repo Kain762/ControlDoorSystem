@@ -6,9 +6,11 @@ const PORT = process.env.PORT || 3667
 const doorsRouter = require('./db/router/doors.router')
 const usersRouter = require('./db/router/users.router')
 const hwRouter = require('./db/router/hw.router')
+const loginRouter = require('./db/router/login.router')
 
 app.use(cors())
 app.use(express.json())
+app.use('/api/login', loginRouter)
 app.use('/api/door', doorsRouter)
 app.use('/api/user', usersRouter)
 app.use('/api/hw', hwRouter) //запросы от дверей
