@@ -5,7 +5,7 @@
       dense
       :headers="headers"
       :items="items"
-      :items-per-page="5"
+      :items-per-page="-1"
       show-expand
       :single-expand="true"
       :expanded.sync="expanded"

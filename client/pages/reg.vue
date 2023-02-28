@@ -24,7 +24,8 @@
 
           // проверка на отсутствие токена
           if (token === 'undefined' || !token) {
-            authError()
+            console.log('Токен отсутствует')
+            this.authError()
             // если токена нет, то отправка на логин
           } else {
             // если токен есть, то отправляем его на сервер
@@ -41,12 +42,12 @@
             }
 
         } catch (error) {
-          authError()
+          console.log('Ошибка авторизации')
+          this.authError()
         }
       },
       // релог при ошибке авторизации
       authError() {
-        console.log('Ошибка авторизации')
         localStorage.removeItem('token')
         localStorage.removeItem('userID')
         localStorage.removeItem('userRole')

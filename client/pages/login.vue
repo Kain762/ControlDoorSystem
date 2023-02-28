@@ -124,8 +124,8 @@ export default {
             await localStorage.setItem('userRole', authAccess.data.role)
             // setTimeout(() => {this.$nuxt.$options.router.push({path: '/main'})}, 200)
             // document.location.href = '/main'
+            console.log('пользователь авторизован')
             await this.$nuxt.$router.push('/main')
-            console.log('это сообщение не должно появляться')
           } else {
             this.showContent = true
           }
