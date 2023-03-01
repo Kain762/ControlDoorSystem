@@ -136,6 +136,7 @@
 
     data() {
       return {
+        accessRules: '',
         testField: '',
         formRules:[
           v => !!v || 'Заполните поле'
@@ -151,19 +152,11 @@
           doorAccess: [],
         },
 
-        // password: '',
-        // login: '',
-        // name: '',
-        // role: '',
-        // chip: '',
-        // doorAccess: [],
-
         doors: '',
         roleItems: ['Admin',
                     'User',],
         doorsItems: [],
         doorsAccessSelect: [],
-
       }
     },
 
@@ -182,39 +175,10 @@
 
       },
 
-      // отправить данные на создание юзера
-      // async createUser() {
-      //   try {
-      //     await this.$axios.$post('http://localhost:3666/api/user/', {
-      //       name: this.name,
-      //       login: this.login,
-      //       password: this.password,
-      //       role: this.role,
-      //       chip: this.chip,
-      //       doors: this.doorAccess
-      //     })
-      //     alert(`Пользователь ${this.name} успешно создан`)
-      //     } catch (error) {
-      //       alert("ERROR!!!")
-      //       console.log(error)
-      //     }
-      // },
 
-      // closeForm() {
-      //   setTimeout(() => {
-      //     this.$nuxt.$options.router.push({path: '/main'})
-      //   }, 500)
-      // }
     },
 
     computed: {
-      // проверка заполнения формы
-      // checkForm() {
-      //   // if(this.name && this.login && this.password && this.role && this.chip) {
-      //   //   return this.checkFormFlag = true
-      //   // }
-      //   return Boolean(this.name && this.login && this.password && this.role && this.chip)
-      // }
     },
 
     async mounted () {
@@ -230,6 +194,7 @@
       ///////////////////////////////////////
       // Формаруем массив данных для карточек дверей (чекбоксы)
       this.doorsAccessSelect = gettingDoorList
+
       ///////////////////////////////////////
     },
   }

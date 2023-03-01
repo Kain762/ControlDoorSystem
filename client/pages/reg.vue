@@ -35,11 +35,16 @@
               headers: { 'authorization': token },
             }
             const authAccess = await this.$axios(postConfig)
-            // если токен верный, то получаем ответом данные юзера, и сохраняем их
-            localStorage.setItem('userID', authAccess.data.id)
-            localStorage.setItem('userRole', authAccess.data.role)
-            this.showContent = true
+            // если токен верный, то получаем ответом данные юзера, и сохраняем их?, но проверям на админа
+            if (authAccess.data.role === 'Admin') {
+              localStorage.setItem('userID', authAccess.data.id)
+              localStorage.setItem('userRole', authAccess.data.role)
+              this.showContent = true
+            } else {
+              console.log('Нет прав администратора')
+              this.authError()
             }
+          }
 
         } catch (error) {
           console.log('Ошибка авторизации')

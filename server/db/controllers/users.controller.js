@@ -8,26 +8,26 @@ class UserController {
     // создаём юзера
     try {
       const newRaw = await db
-      .query(
-        "INSERT INTO users (name, login, password, role, chip) values ($1, $2, $3, $4, $5) RETURNING *",
-        [name, login, password, role, chip]
-      )
-        // Привязываем к нему двери
-        const userId = newRaw.rows[0].id;
+        .query(
+          "INSERT INTO users (name, login, password, role, chip) values ($1, $2, $3, $4, $5) RETURNING *",
+          [name, login, password, role, chip]
+        )
+      // Привязываем к нему двери
+      const userId = newRaw.rows[0].id;
 
-        doors.forEach((doorsId) => {
-          // console.log(doorsId)
-          relationController.createRelation(userId, doorsId);
-        });
+      doors.forEach((doorsId) => {
+        // console.log(doorsId)
+        relationController.createRelation(userId, doorsId);
+      });
 
-        res.json(newRaw.rows);
+      res.json(newRaw.rows);
 
     } catch (error) {
       console.log(`ОШИБКА!!! ${error.detail}`)
-        res.status(500).json(error.detail)
-    } 
+      res.status(500).json(error.detail)
+    }
   }
-  
+
 
   async getAllUsersName(req, res) {
     const users = await db.query("SELECT id, name from users");
@@ -39,7 +39,7 @@ class UserController {
     res.json(usersRole.rows);
   }
 
-  async checkAdminPawwsord(req,res) {
+  async checkAdminPawwsord(req, res) {
     const pass = req.params.pass
     const role = 'Admin'
     let passCheck = false
@@ -48,10 +48,10 @@ class UserController {
     const passData = await db.query("SELECT password from users WHERE role = $1", [role])
     // console.log(passData)
     // Проверяем пароль
-    for(const el of passData.rows) {
+    for (const el of passData.rows) {
 
       passCheck = (el.password === pass) ? true : false
-      
+
       if (passCheck) break
     }
     // console.log(passCheck)
@@ -71,23 +71,23 @@ class UserController {
         WHERE id = $6
         RETURNING *`,
         [name, login, password, role, chip, id])
-        userRow = user.rows[0]
-        try {
-          await relationController.updateRelation(id, doors)
-          res.json(userRow)
-        } catch (error) {
-          console.log('Ошибка изменения связей')
-          console.log(error.detail)
-          res.status(400).send(error.detail)
-        }
+      userRow = user.rows[0]
+      try {
+        await relationController.updateRelation(id, doors)
+        res.json(userRow)
+      } catch (error) {
+        console.log('Ошибка изменения связей')
+        console.log(error.detail)
+        res.status(400).send(error.detail)
+      }
     } catch (error) {
       console.log('Ошибка изменения юзера')
       console.log(error.detail)
       res.status(400).send(error.detail)
     }
-    
-    
-    
+
+
+
   }
 
   async deleteUser(req, res) {
@@ -150,14 +150,14 @@ class UserController {
       items: [],
       chips: [],
     }
-     
+
     // формируем строку хэдера
     const doorName = doorsTable.rows.map((el) => {
       let elMod = {
-          text: el.name,
-          value: `access${el.id}`,
-          width: '10%',
-          id: el.id,
+        text: el.name,
+        value: `access${el.id}`,
+        width: '10%',
+        id: el.id,
       }
       return elMod
     })
@@ -168,27 +168,27 @@ class UserController {
     // строки данных
     let completRow = []
     // для каждого юзера..
-    for (const el1 of usersTable.rows) { 
+    for (const el1 of usersTable.rows) {
       let elRow = {
         name: el1.name,
         userID: el1.id,
-      } 
+      }
       // ..берем каждую дверь..
-      for (const el2 of doorName) { 
+      for (const el2 of doorName) {
         elRow[el2.value] = 'false' // дефолтное значение 'false'
         // ..и ищем связь
-        for (const el3 of relationsTable.rows) { 
+        for (const el3 of relationsTable.rows) {
           if (el3.id_user === el1.id && el3.id_door === el2.id) {
-            elRow[el2.value] = 'true' 
+            elRow[el2.value] = 'true'
             break
-          }     
+          }
         }
       }
       completRow.push(elRow)
     }
     tableInfo.items = completRow
 
-    // console.log(tableInfo)
+    console.log(tableInfo)
     res.json(tableInfo)
   }
   // Данные юзера для редактирования
@@ -196,7 +196,7 @@ class UserController {
     const id = req.params.id
     const userData = await db.query('SELECT * from users WHERE id=$1', [id])
     const accessDoor = await db.query('SELECT id_door from users_doors WHERE id_user=$1', [id])
-    
+
     const door = accessDoor.rows.map(el => el.id_door)
     //console.log(door)
     let editTableInfo = {
@@ -206,6 +206,16 @@ class UserController {
     editTableInfo.doors = door
     console.log(editTableInfo)
     res.json(editTableInfo)
+  }
+
+  // данные таблицы для одного юзера
+  async oneTableData(req, res) {
+    // const id = req.params.id
+    // const usersTable = await db.query('SELECT * from users WHERE id=$1', [id])
+    // const doorsTable = await db.query('SELECT * from doors')
+
+    console.log(req.params.id)
+    res.json(req.params.id)
   }
 }
 

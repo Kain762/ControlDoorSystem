@@ -4,6 +4,7 @@ const usersController = require('../controllers/users.controller')
 
 router.post('/', usersController.createUser) // Создать юзера
 router.get('/', usersController.getAllUsersName) // Вывести всех юзеров
+router.get('/oneRow/:id', usersController.oneTableData) // строка данных для юзера
 router.get('/tableData', usersController.tableData) // Получить объекты таблицы
 router.get('/role', usersController.getAllUsersRole) // вывести все роли юзеров
 router.get('/check/:pass', usersController.checkAdminPawwsord) // Проверить пароль админа

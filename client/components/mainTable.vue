@@ -6,7 +6,7 @@
       :headers="headers"
       :items="items"
       :items-per-page="-1"
-      show-expand
+      :show-expand="accessRules === 'Admin'"
       :single-expand="true"
       :expanded.sync="expanded"
       item-key="name"
@@ -18,6 +18,7 @@
           <v-toolbar-title>Система доступа к дверям</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn
+            v-if="accessRules === 'Admin'"
             dark
             color="green"
             @click="linkCreate"
@@ -30,7 +31,9 @@
 
 
 
-      <template v-slot:expanded-item="{ headers, item }">
+      <template
+        v-if="accessRules === 'Admin'"
+        v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
 
           <!--  -->
@@ -102,7 +105,9 @@
         </v-snackbar>
       </template>
 <!-- диалог редактирования -->
-      <template>
+      <template
+        v-if="accessRules === 'Admin'"
+        >
           <v-row justify="center">
             <v-dialog
               v-model="dialogEditForm"
@@ -165,13 +170,6 @@
     },
 
     watch: {
-      // dialogDelete(val) {
-      //   val || this.closeDelete()
-      // },
-      // dialogEdit(val) {
-      //   val || this.closeCreate()
-      // },
-
     },
 
     methods: {
@@ -182,14 +180,23 @@
       },
 
       linkCreate() {
-        this.$nuxt.$router.push('/reg')
+        try {
+          if (this.accessRules === 'Admin') {
+            this.$nuxt.$router.push('/reg')
+          }
+        } catch (error) {
+          console.log('linkCreate Error')
+        }
+
       },
 
       // Диалог редактирования
       async editForm(userRow) {
         try {
-          this.editedItem = await this.$axios.$get(`http://localhost:3666/api/user/edit/${userRow.userID}`)
-          this.openEditForm()
+          if (this.accessRules === 'Admin') {
+            this.editedItem = await this.$axios.$get(`http://localhost:3666/api/user/edit/${userRow.userID}`)
+            this.openEditForm()
+          }
         } catch (error) {
           console.log('Ошибка редактирования пользователя')
           console.log(error)
@@ -212,9 +219,11 @@
       // диалог удаления
       async checkAdminDelet(userRow) {
         try {
-          await this.$axios.$delete(`http://localhost:3666/api/user/${userRow.userID}`)
-          this.snackText = 'Пользователь удалён'
-          this.closeDelete()
+          if (this.accessRules === 'Admin') {
+            await this.$axios.$delete(`http://localhost:3666/api/user/${userRow.userID}`)
+            this.snackText = 'Пользователь удалён'
+            this.closeDelete()
+          }
         } catch (error) {
           console.log('Ошибка при удалении пользователя')
           this.snackText = 'Ошибка'
@@ -231,11 +240,18 @@
 
       // Инициализация
       async initialize() {
-        // this.accessRules = localStorage.getItem('')
-        const tableData = await this.$axios.$get('http://localhost:3666/api/user/tableData')
+        this.accessRules = localStorage.getItem('userRole')
+        const tableData = {}
+        if (this.accessRules === 'Admin') {
+          tableData = await this.$axios.$get('http://localhost:3666/api/user/tableData')
+        } else {
+          tableData = await this.$axios.$get(`http://localhost:3666/api/user/oneRow/${localStorage.getItem('userID')}`)
+        }
+
         this.headers = tableData.headers
         this.items = tableData.items
         this.chips = tableData.chips
+
         // console.log(this.chips)
       }
     },
