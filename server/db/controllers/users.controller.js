@@ -136,11 +136,6 @@ class UserController {
     // заготовка ответа
     let tableInfo = {
       headers: [
-        // {
-        //   text: 'Дейтсвия',
-        //   value: 'actions',
-        //   sortable: false,
-        // },
         {
           text: 'Сотрудник',
           align: 'start',
@@ -210,12 +205,52 @@ class UserController {
 
   // данные таблицы для одного юзера
   async oneTableData(req, res) {
-    // const id = req.params.id
-    // const usersTable = await db.query('SELECT * from users WHERE id=$1', [id])
-    // const doorsTable = await db.query('SELECT * from doors')
+    const id = req.params.id
+    const usersTableId = await db.query('SELECT * from users WHERE id=$1', [id])
+    const doorsTable = await db.query('SELECT * from doors')
+    const relationsTable = await db.query('SELECT id_door from users_doors WHERE id_user=$1', [id])
+
+    // заготовка ответа
+    let rowInfo = {
+      headers: [
+        {
+          text: 'Сотрудник',
+          align: 'start',
+          value: 'name',
+        },
+      ],
+      items: [],
+      chips: [],
+    }
+
+    // формируем строку хэдэра
+    const doorName = doorsTable.rows.map((el) => {
+      let elMod = {
+        text: el.name,
+        value: `access${el.id}`,
+        width: '10%',
+        id: el.id,
+      }
+      return elMod
+    })
+    rowInfo.headers = rowInfo.headers.concat(doorName)
+    // формируем чипсы
+    rowInfo.chips = doorName
+
+    // строка пользователя
+    const relationsDoorId = relationsTable.rows.map((el) => el.id_door) // массив ИД дверей для пользователя
+    let userRow = {
+      name: usersTableId.rows[0].name,
+      userID: usersTableId.rows[0].id,
+    }
+    for (const el of doorName) {
+      userRow[el.value] = String(relationsDoorId.includes(el.id))
+    }
+
+    rowInfo.items[0] = userRow
 
     console.log(req.params.id)
-    res.json(req.params.id)
+    res.json(rowInfo)
   }
 }
 

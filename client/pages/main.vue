@@ -35,7 +35,7 @@
             // если токен есть, то отправляем его на сервер
             const postConfig = {
               method: 'post',
-              url: 'http://localhost:3666/api/login/checkAuth/',
+              url: 'http://localhost:3666/login/checkAuth/',
               headers: { 'authorization': token },
             }
             const authAccess = await this.$axios(postConfig)

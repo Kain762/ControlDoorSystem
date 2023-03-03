@@ -241,19 +241,28 @@
       // Инициализация
       async initialize() {
         this.accessRules = localStorage.getItem('userRole')
-        const tableData = {}
+        // const tableData = {}
         if (this.accessRules === 'Admin') {
-          tableData = await this.$axios.$get('http://localhost:3666/api/user/tableData')
+          this.getAdminData()
         } else {
-          tableData = await this.$axios.$get(`http://localhost:3666/api/user/oneRow/${localStorage.getItem('userID')}`)
+          this.getUserData()
         }
-
+        // console.log(tableData)
+      },
+      // получение таблицы Админа
+      async getAdminData() {
+        const tableData = await this.$axios.$get('http://localhost:3666/api/user/tableData')
         this.headers = tableData.headers
         this.items = tableData.items
         this.chips = tableData.chips
-
-        // console.log(this.chips)
-      }
+      },
+      // получение таблицы пользователя
+      async getUserData() {
+        const tableData = await this.$axios.$get(`http://localhost:3666/api/user/oneRow/${localStorage.getItem('userID')}`)
+        this.headers = tableData.headers
+        this.items = tableData.items
+        this.chips = tableData.chips
+      },
     },
     async beforeCreate() {
 

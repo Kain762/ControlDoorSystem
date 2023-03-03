@@ -89,7 +89,7 @@ export default {
         // console.log(`${log}: ${pass}`)
         if(this.valid){
           try {
-            const submitRes = await this.$axios.$post('http://localhost:3666/api/login/', {
+            const submitRes = await this.$axios.$post('http://localhost:3666/login/', {
               login: this.login,
               password: this.password,
             })
@@ -116,7 +116,7 @@ export default {
           if(token && token != 'undefined') {
             const postConfig = {
               method: 'post',
-              url: 'http://localhost:3666/api/login/checkAuth/',
+              url: 'http://localhost:3666/login/checkAuth/',
               headers: { 'authorization': token},
             }
             const authAccess = await this.$axios(postConfig)
