@@ -194,7 +194,7 @@
       async editForm(userRow) {
         try {
           if (this.accessRules === 'Admin') {
-            this.editedItem = await this.$axios.$get(`http://localhost:3666/api/user/edit/${userRow.userID}`)
+            this.editedItem = await this.$axios.$get(`http://localhost:3666/api/user/edit/${userRow.userID}`, { headers: { 'authorization': localStorage.getItem('token') }})
             this.openEditForm()
           }
         } catch (error) {
@@ -220,7 +220,7 @@
       async checkAdminDelet(userRow) {
         try {
           if (this.accessRules === 'Admin') {
-            await this.$axios.$delete(`http://localhost:3666/api/user/${userRow.userID}`)
+            await this.$axios.$delete(`http://localhost:3666/api/user/${userRow.userID}`, { headers: { 'authorization': localStorage.getItem('token') }})
             this.snackText = 'Пользователь удалён'
             this.closeDelete()
           }
@@ -251,14 +251,14 @@
       },
       // получение таблицы Админа
       async getAdminData() {
-        const tableData = await this.$axios.$get('http://localhost:3666/api/user/tableData')
+        const tableData = await this.$axios.$get('http://localhost:3666/api/user/tableData', { headers: { 'authorization': localStorage.getItem('token') }})
         this.headers = tableData.headers
         this.items = tableData.items
         this.chips = tableData.chips
       },
       // получение таблицы пользователя
       async getUserData() {
-        const tableData = await this.$axios.$get(`http://localhost:3666/api/user/oneRow/${localStorage.getItem('userID')}`)
+        const tableData = await this.$axios.$get(`http://localhost:3666/api/user/oneRow/${localStorage.getItem('userID')}`, { headers: { 'authorization': localStorage.getItem('token') }})
         this.headers = tableData.headers
         this.items = tableData.items
         this.chips = tableData.chips

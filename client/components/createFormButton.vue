@@ -47,7 +47,14 @@
             role: this.userData.role,
             chip: this.userData.chip,
             doors: this.userData.doorAccess,
-          })} catch (error) {
+          },
+          {
+            headers: {
+              'authorization': localStorage.getItem('token'),
+            },
+          }
+          )
+        } catch (error) {
           alert(`ERRORR!!! ${error.detail}`)
           return
         }

@@ -204,8 +204,12 @@
     methods: {
       // получить ключ из двери
       async getKey() {
-        const key = await this.$axios.$post(`http://localhost:3666/api/hw/getKey/`, {
-          doorName: this.doors,
+        const key = await this.$axios.$post(`http://localhost:3666/api/hw/getKey/`,
+          {
+            doorName: this.doors,
+          },
+          {
+            headers: { 'authorization': localStorage.getItem('token')}
           })
         // console.log(key)
         this.user.chip = key
@@ -227,7 +231,7 @@
             chip: this.user.chip,
             doors: this.user.doorAccess,
           })
-          console.log(newUser)
+          // console.log(newUser)
           alert(`Пользователь ${newUser.name} успешно изменен`)
           this.closeForm()
         } catch (error) {
@@ -261,11 +265,11 @@
     },
 
     beforeUnmount() {
-      console.log('Размонтируется ')
+      // console.log('Размонтируется ')
       },
 
     unmounted() {
-      console.log('Размонтирован')
+      // console.log('Размонтирован')
     },
   }
 </script>

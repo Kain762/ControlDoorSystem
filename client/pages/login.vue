@@ -53,16 +53,16 @@
           </v-btn>
           <!-- //////////////////////////////////// -->
           <!-- тест -->
-          <v-btn
+          <!-- <v-btn
             @click="testCheck"
             >
             Проверить
-          </v-btn>
+          </v-btn> -->
           <!-- ///////////////////////////////////////////// -->
         </v-col>
         <v-spacer></v-spacer>
       </v-row>
-      {{ testFiled }}
+      <!-- {{ testFiled }} -->
       </form>
 
     </v-container>
@@ -93,13 +93,13 @@ export default {
               login: this.login,
               password: this.password,
             })
-            console.log(submitRes)
+            // console.log(submitRes)
             localStorage.setItem('token', submitRes.token);
             this.$nuxt.$router.push({path: '/main'})
           } catch (error) {
               localStorage.setItem('token', undefined)
               console.log(`Введенные данные не верны \n${error}`)
-              this.testFiled = 'Неверные данные'
+              // this.testFiled = 'Неверные данные'
           }
         }
 
@@ -114,16 +114,10 @@ export default {
           const token = localStorage.getItem('token')
 
           if(token && token != 'undefined') {
-            const postConfig = {
-              method: 'post',
-              url: 'http://localhost:3666/login/checkAuth/',
-              headers: { 'authorization': token},
-            }
-            const authAccess = await this.$axios(postConfig)
-            await localStorage.setItem('userID', authAccess.data.id)
-            await localStorage.setItem('userRole', authAccess.data.role)
-            // setTimeout(() => {this.$nuxt.$options.router.push({path: '/main'})}, 200)
-            // document.location.href = '/main'
+            const authAccess = await this.$axios.$post('http://localhost:3666/login/checkAuth/', {}, { headers: { 'authorization': localStorage.getItem('token') }})
+            await localStorage.setItem('userID', authAccess.id)
+            await localStorage.setItem('userRole', authAccess.role)
+
             console.log('пользователь авторизован')
             await this.$nuxt.$router.push('/main')
           } else {
@@ -133,7 +127,7 @@ export default {
 
 
         } catch (error) {
-          console.log('Ошибка авторизации ' + error)
+          console.log('Ошибка авторизации ')
           localStorage.removeItem('token')
           localStorage.removeItem('userID')
           localStorage.removeItem('userRole')

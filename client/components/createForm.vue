@@ -165,9 +165,13 @@
       // получить ключ из двери
       async getKey() {
         try {
-          const key = await this.$axios.$post(`http://localhost:3666/api/hw/getKey`, {
-            doorName: this.doors
-          })
+          const key = await this.$axios.$post(`http://localhost:3666/api/hw/getKey`,
+            {
+              doorName: this.doors
+            },
+            {
+              headers: { 'authorization': localStorage.getItem('token') }
+            })
           this.user.chip = key
         } catch (error) {
           console.log('Ошибка получения ключа')
@@ -183,7 +187,7 @@
 
     async mounted () {
       // Получаем список дверей
-      const gettingDoorList = await this.$axios.$get('http://localhost:3666/api/door')
+      const gettingDoorList = await this.$axios.$get('http://localhost:3666/api/door', { headers: { 'authorization': localStorage.getItem('token') }})
       //console.log(gettingDoorList)
       let doorList = []
       for (const el of gettingDoorList) {

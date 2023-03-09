@@ -29,16 +29,11 @@
             // если токена нет, то отправка на логин
           } else {
             // если токен есть, то отправляем его на сервер
-            const postConfig = {
-              method: 'post',
-              url: 'http://localhost:3666/login/checkAuth/',
-              headers: { 'authorization': token },
-            }
-            const authAccess = await this.$axios(postConfig)
+            const authAccess = await this.$axios.$post('http://localhost:3666/login/checkAuth/', {}, { headers: { 'authorization': token }})
             // если токен верный, то получаем ответом данные юзера, и сохраняем их?, но проверям на админа
             if (authAccess.data.role === 'Admin') {
-              localStorage.setItem('userID', authAccess.data.id)
-              localStorage.setItem('userRole', authAccess.data.role)
+              localStorage.setItem('userID', authAccess.id)
+              localStorage.setItem('userRole', authAccess.role)
               this.showContent = true
             } else {
               console.log('Нет прав администратора')
