@@ -31,7 +31,7 @@
             // если токен есть, то отправляем его на сервер
             const authAccess = await this.$axios.$post('http://localhost:3666/login/checkAuth/', {}, { headers: { 'authorization': token }})
             // если токен верный, то получаем ответом данные юзера, и сохраняем их?, но проверям на админа
-            if (authAccess.data.role === 'Admin') {
+            if (authAccess.role === 'Admin') {
               localStorage.setItem('userID', authAccess.id)
               localStorage.setItem('userRole', authAccess.role)
               this.showContent = true

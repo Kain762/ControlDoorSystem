@@ -183,6 +183,7 @@
         try {
           if (this.accessRules === 'Admin') {
             this.$nuxt.$router.push('/reg')
+            // console.log('Переход на REg')
           }
         } catch (error) {
           console.log('linkCreate Error')

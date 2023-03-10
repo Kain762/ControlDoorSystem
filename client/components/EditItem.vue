@@ -230,6 +230,9 @@
             role: this.user.role,
             chip: this.user.chip,
             doors: this.user.doorAccess,
+          },
+          {
+            headers: { 'authorization': localStorage.getItem('token') }
           })
           // console.log(newUser)
           alert(`Пользователь ${newUser.name} успешно изменен`)
@@ -248,10 +251,10 @@
     },
 
     async mounted () {
-      console.log('МоНтИрОвААН')
+      // console.log('МоНтИрОвААН')
       // Получаем список дверей
-      const gettingDoorList = await this.$axios.$get('http://localhost:3666/api/door')
-      //console.log(gettingDoorList)
+      const gettingDoorList = await this.$axios.$get('http://localhost:3666/api/door', { headers: { 'authorization': localStorage.getItem('token') }})
+      // console.log(gettingDoorList)
       let doorList = []
       for (const el of gettingDoorList) {
         //console.log(el.text)

@@ -183,7 +183,7 @@ class UserController {
     }
     tableInfo.items = completRow
 
-    console.log(tableInfo)
+    // console.log(tableInfo)
     res.json(tableInfo)
   }
   // Данные юзера для редактирования
@@ -199,7 +199,7 @@ class UserController {
     }
     editTableInfo = userData.rows[0]
     editTableInfo.doors = door
-    console.log(editTableInfo)
+    // console.log(editTableInfo)
     res.json(editTableInfo)
   }
 
@@ -249,7 +249,7 @@ class UserController {
 
     rowInfo.items[0] = userRow
 
-    console.log(req.params.id)
+    // console.log(req.params.id)
     res.json(rowInfo)
   }
 }
